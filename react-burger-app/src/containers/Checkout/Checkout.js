@@ -7,7 +7,7 @@ import ContactData from "./ContatData/ContactData";
 class Checkout extends Component {
   state = {
     ingredients: null,
-    totalPrice: 0,
+    price: 0,
   };
 
   componentWillMount() {
@@ -21,7 +21,7 @@ class Checkout extends Component {
         ingredients[param[0]] = +param[1];
       }
     }
-    this.setState({ ingredients: ingredients, totalPrice: price });
+    this.setState({ ingredients: ingredients, price: price });
   }
 
   checkoutCanelledHandler = () => {
@@ -45,7 +45,7 @@ class Checkout extends Component {
           render={(props) => (
             <ContactData
               ingredients={this.state.ingredients}
-              price={this.state.totalPrice}
+              price={this.state.price}
               {...props}
             />
           )}
