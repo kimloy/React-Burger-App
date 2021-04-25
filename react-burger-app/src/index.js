@@ -2,14 +2,25 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import thunk from "redux-thunk";
 
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import reducer from "./store/reducer";
+import burgerBuilderReducers from "./store/reducers/burgerBuilder";
 
-const store = createStore(reducer);
+export default function configureStore() {
+  const middlewareEnchancer = applyMiddleware(thunk);
+  const enhancer = [middlewareEnchancer];
+  const composedEnhancers = composeWithDevTools(...enhancer);
+  const store = createStore(burgerBuilderReducers, composedEnhancers);
+
+  return store;
+}
+
+const store = configureStore();
 
 const app = (
   <Provider store={store}>
