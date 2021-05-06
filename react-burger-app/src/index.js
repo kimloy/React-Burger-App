@@ -11,10 +11,12 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import burgerBuilderReducers from "./store/reducers/burgerBuilder";
 import orderReducer from "./store/reducers/order";
+import authReducer from "./store/reducers/auth";
 
 const rootReducer = combineReducers({
   burgerBuilder: burgerBuilderReducers,
   order: orderReducer,
+  auth: authReducer,
 });
 
 export default function configureStore() {
