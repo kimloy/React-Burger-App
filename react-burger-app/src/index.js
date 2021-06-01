@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
+import createSagaMiddleware from "redux-saga";
 
 import "./index.css";
 import App from "./App";
@@ -12,6 +13,7 @@ import reportWebVitals from "./reportWebVitals";
 import burgerBuilderReducers from "./store/reducers/burgerBuilder";
 import orderReducer from "./store/reducers/order";
 import authReducer from "./store/reducers/auth";
+import { watchAuth } from "./store/sagas/";
 
 const rootReducer = combineReducers({
   burgerBuilder: burgerBuilderReducers,
@@ -19,8 +21,10 @@ const rootReducer = combineReducers({
   auth: authReducer,
 });
 
+const sagaMiddleware = createSagaMiddleware();
+
 export default function configureStore() {
-  const middlewareEnchancer = applyMiddleware(thunk);
+  const middlewareEnchancer = applyMiddleware(thunk, sagaMiddleware);
   const enhancer = [middlewareEnchancer];
   const composedEnhancers = composeWithDevTools(...enhancer);
   const store = createStore(rootReducer, composedEnhancers);
@@ -29,6 +33,7 @@ export default function configureStore() {
 }
 
 const store = configureStore();
+sagaMiddleware.run(watchAuth);
 
 const app = (
   <Provider store={store}>
